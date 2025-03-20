@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Registro de Venta</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles_ventas.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 id="title">Registro de Venta</h2>
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<div class="container">
+    <div class="top">
+        <form id="ventaForm" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.id_cliente.label_tag }} {{ form.id_cliente }}
+                <input type="hidden" id="hidden_cliente" name="hidden_cliente">
+                <label for="fecha_venta" id="lfecha">Fecha de la venta:</label>
+                <input type="datetime-local" id="fecha_venta" name="fecha_venta" required>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var fechaAsignacionInput = document.getElementById('fecha_venta');
+                        if (fechaAsignacionInput) {
+                            var now = new Date();
+                            var year = now.getFullYear();
+                            var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                            var day = ('0' + now.getDate()).slice(-2);
+                            var hours = ('0' + now.getHours()).slice(-2);
+                            var minutes = ('0' + now.getMinutes()).slice(-2);
+                            var formattedDateTime = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+                            fechaAsignacionInput.value = formattedDateTime;
+                        }
+                    });
+                </script>
+                <button id="cambiarClienteBtn" style="display: none;">Cambiar Cliente</button>
+            </div>
+    </div>
+    <div class="bottom">
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.id_producto.label_tag }} {{ form.id_producto }}
+            </div>
+            <div class="form-group">
+                {{ form.id_cantidad.label_tag }} {{ form.id_cantidad }}
+            </div>
+            <div class="form-group">
+                {{ form.precio_total.label_tag }} {{ form.precio_total }}
+            </div>
+            <div class="form-group">
+                <button type="button" id="modificarCostoBtn">Modificar Costo</button>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Guardar" id="btnGuardar">
+            </div>
+        </div>
+
+        <div id="codigoModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Ingresar Código</h2>
+                <input type="text" id="codigoInput" placeholder="Ingresa el código">
+                <button id="verificarCodigoBtn">Verificar Código</button>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#modificarCostoBtn').on('click', function () {
+                    $('#codigoModal').show();
+                });
+                $('.close').on('click', function () {
+                    $('#codigoModal').hide();
+                });
+                $('#verificarCodigoBtn').on('click', function () {
+                    var codigoIngresado = $('#codigoInput').val();
+                    $.ajax({
+                        url: '/verificar_codigo/',
+                        method: 'POST',
+                        data: {
+                            'codigo': codigoIngresado,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            if (response.valid) {
+                                $('#id_precio_total').prop('readonly', false);
+                                $('#codigoModal').hide();
+                                $('#codigoInput').val('');
+                            } else {
+                                alert('Código de autorización incorrecto');
+                            }
+                        },
+                        error: function () {
+                            alert('Error en la verificación del código');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <div class="right">
+            <div class="resumen">
+                <table id="resumenTabla">
+                    <tr>
+                        <th>Cantidad</th>
+                        <th>Producto</th>
+                        <th style="text-align: right; width: 7px;"></th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </table>
+
+                <div class="total">
+                    Total: $<span id="total-venta">0</span><br>
+
+                    <!-- Nuevo campo para ingresar el monto con el que paga el cliente -->
+                    <label for="pago-cliente">Pago del cliente: $</label>
+                    <input type="number" id="pago-cliente" min="0" step="0.01" placeholder="0.00"><br>
+
+                    <!-- Campo para mostrar el cambio -->
+                    <label for="cambio">Cambio: $</label>
+                    <input type="text" id="cambio" readonly value="0.00"><br>
+                </div>
+
+                <input type="submit" value="Registrar venta" id="registrarVentaBtn">
+                <input type="button" value="Imprimir Ticket" id="imprimir" style="display: block;">
+
+                <script>
+                    document.getElementById('pago-cliente').addEventListener('input', function () {
+                        var totalVenta = parseFloat(document.getElementById('total-venta').textContent);
+                        var pagoCliente = parseFloat(this.value);
+                        
+                        if (!isNaN(pagoCliente) && pagoCliente >= totalVenta) {
+                            var cambio = pagoCliente - totalVenta;
+                            document.getElementById('cambio').value = cambio.toFixed(2);
+                        } else {
+                            document.getElementById('cambio').value = "0.00";
+                        }
+                    });
+
+                    document.getElementById('imprimir').addEventListener('click', function () {
+                        window.location.href = '/ticket-generator/';
+                    });
+                </script>
+
+                <button id="editarVentaBtn" type="button" style="display:none;">Editar Venta</button>
+            </div>
+            <div id="eliminarVenta" class="modal">
+                <div class="modal-content">
+                    <p id="eliminarModal">¿Seguro que deseas eliminar esta fila?</p>
+                    <button id="aceptarEliminar" type="button">Aceptar</button>
+                    <button id="cancelarEliminar" type="button">Cancelar</button>
+                </div>
+            </div>
+            </form>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                <strong>{{ field|title }}</strong>: {{ errors|striptags }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#id_id_cliente').select2({
+        placeholder: "Selecciona un cliente",
+        allowClear: true
+    });
+    var productos = {};
+</script>
+
+{% for producto in productos %}
+<script>
+    productos["{{ producto.id_producto }}"] = {
+        costo: "{{ producto.costo_venta }}"
+    };
+</script>
+{% endfor %}
+
+<script>
+    $(document).ready(function () {
+        $('#id_id_producto').select2({
+            placeholder: "Selecciona un producto",
+            allowClear: true
+        });
+
+        $('#id_id_producto').on('change', function () {
+            var productoId = $(this).val();
+            if (productoId) {
+                var costo = productos[productoId].costo;
+                $('#id_precio_total').val(costo).prop('readonly', true);
+            } else {
+                $('#id_precio_total').val('').prop('readonly', true);
+            }
+        });
+    });
+</script>
+
+<script src="{% static 'JavaScript/Registro_venta_form.js' %}"></script>
+{% endblock %}

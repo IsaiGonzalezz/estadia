@@ -1,0 +1,303 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f3ee;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(229, 229, 229);
+    width: 45%;
+    margin-right: 7px;
+    margin-left: 7%;
+    float: left;
+    width: 30%;
+    
+}
+.clicked {
+    border: 1px solid #ff9d00;
+    box-shadow: 0 0 12px rgb(255, 203, 131);
+    transition: border 0.3s ease; /* Agrega una transición suave */
+}
+/* Estilos para la tabla */
+.table-container {
+    width: 59%; /* Ajusta el ancho según tus necesidades */
+    max-height: 710px; /* Establece la altura máxima deseada */
+    overflow-y: auto; /* Habilita el scroll vertical */
+    border: 1px solid #ffffff;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+
+h1 {
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;
+
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+#id_nombre{
+    width: 82%;
+}
+
+.activo{
+    background-color: rgb(47, 255, 0);
+}
+
+.inactivo{
+    background-color: rgb(255, 68, 81);
+}
+
+input[type="text"],
+select {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: #0952b1; /* Color azul cielo */
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #f0a800; /* Un tono más oscuro para el hover */
+}
+
+.value {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #004ab1;
+    font-weight: bold;
+    text-decoration: solid;
+    
+}
+
+.value:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2%;
+}
+
+thead {
+    background-color: #515050;
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+}
+
+
+thead th {
+    color: rgb(255, 255, 255);
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+tbody tr {
+    border-bottom: 1px solid #000000;
+    font-weight: normal;
+}
+
+tbody td {
+    padding: 16px;
+    text-align: center;
+}
+/*
+tbody tr:nth-child(even) {
+    background-color: #bbffd2;
+}
+*/
+
+.high-stock {
+    background-color: #a7f5b9; /* Verde claro */
+}
+
+.medium-stock {
+    background-color: #f5e59d; /* Amarillo claro */
+}
+
+.low-stock {
+    background-color: #f8baba; /* Rojo claro */
+}
+
+.inactive {
+    background-color: #bebebe; 
+}
+
+#buscarProducto{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 35%;
+    margin-left: 2%;
+}
+
+#btnBuscarProducto{
+    background-color: #006adb;
+    color: rgb(255, 249, 249);
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 4%;
+}
+
+select[name="q"]{
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+
+#editarBtn {
+    background-color: rgb(2, 106, 185);
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 100%;
+}
+
+
+#eliminarBtn{
+    background-color: rgb(209, 0, 0);
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 100%;
+}
+
+/* Modal container */
+/* Modal container */
+.modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed; /* Mantener el modal en una posición fija */
+    z-index: 1000; /* Asegurarse de que el modal esté sobre otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Habilitar scroll si el contenido es mayor que la pantalla */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    margin: auto; /* Centrar horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ancho del modal */
+    max-width: 600px; /* Máximo ancho del modal */
+    position: relative; /* Necesario para posicionar el botón de cerrar */
+    top: 50%; /* Posicionarlo al centro verticalmente */
+    transform: translateY(-50%); /* Ajustar para centrar verticalmente */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.stockAlto-color{
+    color:#008b13;
+    font-weight: bold;
+}
+
+.stockMedio-color{
+    color:#8b5100;
+    font-weight: bold;
+}
+
+.stockBajo-color{
+    color:#8b0000;
+    font-weight: bold;
+}

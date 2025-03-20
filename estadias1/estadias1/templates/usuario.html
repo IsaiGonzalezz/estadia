@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Registro de Usuarios</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles_usuario.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container" id="form-container">
+    <h1>Registro de Usuarios</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" id="submitButton">
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for field, errors in form.errors.items %}
+        <strong>{{ field|title }}</strong>: {{ errors|striptags }}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<div class="table-container">
+    <h2>Usuarios existentes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Contraseña</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{usuario.id_usuario}}</td>
+                <td>{{usuario.nombre}} </td>
+                <td>{{usuario.username}}</td>
+                <td>
+                    {% if usuario.rol == True %}
+                        Administrador
+                        {% else %}
+                        Cajero
+                    {% endif %}
+                </td>
+                <td>{{usuario.password}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

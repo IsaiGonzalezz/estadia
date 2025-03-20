@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: #29266c;
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.encabezado {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.usuario-fecha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.usuario-fecha div {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.usuario-fecha div:last-child {
+    margin-right: 0;
+}
+
+.billetes-monedas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.billetes-monedas div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4c51af;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #41227a;
+}
+
+.form-bottom {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#id_id_caja{
+    width: 20%;
+}
+
+.calculos {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+}
+
+#id_monto_entregado{
+    width: 25%;
+}
+
+#id_monto_final{
+    width: 25%;
+}
+
+#id_diferencia{
+    width: 25%;
+}
+
+#id_total_venta{
+    width: 25%;
+}
+
+#id_monto_asignado{
+    width: 25%;
+}

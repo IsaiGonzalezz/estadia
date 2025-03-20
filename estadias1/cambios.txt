@@ -1,0 +1,115 @@
+CAMBIOS HECHOS POR IZAI EL {
+    
+
+    DIA 27 DE MAYOOO DEL 2024 A LA 1:15 AM {
+
+        MODELS.py: 
+
+            1. en las clases que hay y que tienen claves foraneas se cambio el on_delete=models.CASCADE por : on_delete=models.SET_NULL
+
+            esto debido a que en los historiales se deben mantener los registros y si por alguna razon se elimina alguna categoria se
+            eliminara el producto, a lo que tambien se eliminaran registros en demás tablas
+
+            2. hay vistas de html que despliegan los registros, si estas usando el forms.py para que django haga los formularios|
+            y vas a poner algo desplegable con la consulta de una tabla, por ejemplo: vas a desplegar los nombres de tus productos existentes
+            debes poner en el modelo de Producto este codigo: 
+            def __str__(self):
+            return self.nombre
+
+            3. Para mantener integridad con la bd y todo eso, modifique para que los codigos postales en cliente sean enteros
+            y que el rfc permita solo 13 caracteres, entonces en tu bd solo debes poner 
+
+            alter table cliente modify rfc varchar 13; y
+            alter table cliente modify codigo_postal int; 
+
+
+            4. ESTE CAMBIO LO HICE PORQUE SIGO CREYENDO QUE NO SE VAN A PODER REGISTRAR COMPRAS EN LA MANERA EN QUE ESTA LA BD
+            CON EL SCRIPT QUE SE TIENE 
+
+            - quite la primary key de la tabla detalle_compra, al igual que la foranea en Compra 
+            - Añadi la primary key de Compra en detalle_compra como foranea 
+
+
+            igual le preguntare a goyos
+
+            ACTUALIZACION: DEJAR LA KEY DE detalle_compra Y PROPAGAR LA DE COMPRA EN detalle_compra
+
+        
+        STATIC:
+
+            1. agregue la carpeta JavaScript para las cosas que se vayan a utilizar con este lenguaje 
+            ya hay un archivo y es el que hace cosas en Registro_compra, puedes ver la interactividad en el html y esas cosas, analiza el codigo si quieres
+
+
+        FORMS:
+
+            EN FORMS ESTAN LOS FORMULARIOS HECHOS POR DJANGOOO, PARA LO DEL COSO DESPLEGABLE SE USA ESTO:
+
+                id_categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(), label='Categoría', to_field_name='descripcion')
+                EL CUAL: label='Categoría' ES EL TEXTO QUE APARECERA EN EL HTML Y to_field_name='descripcion' ES EL NOMBRE DEL ATRIBUTO QUE VAS A DESPLEGAR
+            SE PONE ARRIBA DE CLASS META: 
+
+            ESO ACOMPAÑADO DEL PUNTO 2 DE LOS CAMBIOS EN MODELS TE DEBERIA SALIR EL COSO DESPLEGABLE CON LOS NOMBRES O LO QUE SEA QUE HAYAS PUESTO
+
+
+        VIEWS: 
+            ES FACIL SOLO SE INTERCAMBIAN COSAS QUE SE TENIAN ANTES, ANALIZA ESO AJSJS, SI CREAS UN FORMULARIO EN DJANGO IMPORTALO HASTA ARRIBA EN LA LINEA  5
+
+    }
+
+
+
+
+
+    DIA 23 05 2024 A LAS 11:43 PMMMMMMMMMMMMM {
+        -- forms.py en carpeta accounts ahi es donde django hace los forms, tengo entendido que se deben esppecificar todos los campos que hay en la bd
+        django automaticamente pone las claves primarias nulas y no las pone en el form
+        EN EL CASO DE PRODUCTO, COMO SE DESPLIEGAN LAS CATEGORIAS QUE HAY EN LA BD ES NECESARIA LA CONFIGURACION
+        id_categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(), label='Categoría', to_field_name='descripcion')
+        ...demás código..
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['id_categoria'].queryset = Categoria.objects.all()
+
+        ESO SIRVE PARA PERSONALIZAR EL FORMULARIO 
+
+
+    -- modificacion de views.py para que django se encargue de las inserciones y a la bd sin que nosotros 
+        lo hagamos, puedes ver eso en registrar_producto, registrar cliente y proveedor
+
+
+    -- creacion de html base >  base.html el cual va a servir para usar como encabezado y se pueda navegar en todas las plantillas 
+        este se usa por medio de blocks, puedes analizarlo entrando al bse.html, luego al html de los registros que modifique
+        es como javascript lo que haciamos con renezito para el encabezado y pie de pagina lo mismito
+
+
+    -- modoficacion de html de los respectivos registros, cliente, producto y proveedor para los formularioooooos
+
+
+    -- modificacion en models, teniendo en cuenta que django esta gestionando las inserciones
+        debemos especificar las claves foraneas, nomás eso
+
+    }
+    
+}
+
+
+
+
+Fokin 6 de junio alaberga{
+    Se hicieron correcciones a la pendejada de Detalle_venta
+    Registro_venta_form.js{
+        Se hicieron correcciones a los calculos y etiquetas tanto de total como del iva, como etiquetas en gral
+    }
+    forms{
+        se hicieron ajustes en ventaForm pa que jale macizo alchile, ya solo falta que reporte a la bd
+    }
+    views{
+        No recuerdo pero tambien le movi a esa madre
+    }
+
+    GOALS{
+        QUe reporte el total y el iva  a la BD pero ps ya manana, amonos
+    }
+
+}

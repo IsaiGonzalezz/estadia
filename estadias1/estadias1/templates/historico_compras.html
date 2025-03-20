@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Historial de Compras</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles_historico_compras.css' %}">
+{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<h1>Historial de Compras</h1>
+
+<form method="get" action="">
+    <h3>Filtrar por:</h3>
+    <label for="proveedor">Proveedor:</label>
+    <select name="proveedor" id="proveedor">
+        <option value="">Todos</option>
+        {% for proveedor in proveedores %}
+        <option value="{{ proveedor.id_proveedor }}">{{ proveedor.razon_social }}</option>
+        {% endfor %}
+    </select>
+    <label for="fecha_inicio">Fecha Inicio:</label>
+    <input type="date" name="fecha_inicio" id="fecha_inicio">
+
+    <label for="fecha_fin">Fecha Fin:</label>
+    <input type="date" name="fecha_fin" id="fecha_fin">
+
+    <input type="submit" value="Filtrar" id="filtrar">
+</form>
+<script>
+    // Obtener la fecha actual en formato ISO (YYYY-MM-DD)
+    const today = new Date().toISOString().split('T')[0];
+
+    // Asignar la fecha actual como el valor máximo del input de fecha
+    document.getElementById('fecha_inicio').setAttribute('max', today);
+    document.getElementById('fecha_fin').setAttribute('max', today);
+    // Establecer la fecha de hoy en los campos de entrada
+    document.getElementById('fecha_inicio').value = today;
+    document.getElementById('fecha_fin').value = today;
+
+</script>
+<script>
+    $(document).ready(function () {
+        // Inicializar Select2 para el filtro de productos
+        $('#proveedor').select2({
+            placeholder: "Selecciona un proveedor",
+            allowClear: true
+        });
+
+        // Manejar clic en "Ver detalle"
+        $(document).on('click', '.ver-detalle', function (event) {
+            event.preventDefault();
+            var compraId = $(this).data('compra-id').trim();
+            console.log("Compra ID:", compraId);
+
+            $.ajax({
+                url: '{% url "detalle_compra" %}',
+                data: {
+                    'compra_id': compraId
+                },
+                success: function (data) {
+                    $('#detalleContent').html(data);
+                    $('#detalleModal').show();
+                    console.log("Modal abierto con datos:", data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error en la solicitud AJAX:", error);
+                }
+            });
+        });
+
+        // Cerrar el modal
+        $(document).on('click', '.close', function () {
+            $('#detalleModal').hide();
+        });
+
+        // Cerrar el modal si se hace clic fuera de él
+        $(window).on('click', function (event) {
+            if ($(event.target).is('#detalleModal')) {
+                $('#detalleModal').hide();
+            }
+        });
+    });
+
+</script>
+
+{% load custom_filters %}
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Detalle</th>
+                <th>No. Compra</th>
+                <th>Fecha</th>
+                <th>Proveedor</th>
+                <th>Subtotal</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra in historial_compras %}
+                
+                    <tr>
+                        <td> <button class="ver-detalle" data-compra-id=" {{compra.0}} ">Ver detalle</button> </td>
+                        <td>{{ compra.0 }}</td>
+                        <td>{{ compra.1}}</td>
+                        <td>{{ compra.2 }}</td>
+                        <td id="subtotalHead">{{ compra.3|currency_format }}</td>
+                    </tr>
+            {% endfor %}
+            <tr id="ttal">
+                <td colspan="4" style="text-align: right;">Total:</td>
+                <td style="text-align: right;">{{ total|currency_format }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="detalleModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Detalle de la Compra</h2>
+        <div id="detalleContent">
+            <!-- Aquí se cargarán los detalles de la compra -->
+        </div>
+    </div>
+</div>
+{% endblock %}

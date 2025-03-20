@@ -1,0 +1,85 @@
+
+
+body{
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fbfaf6;
+}
+
+h1 {
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 40px 0 20px 0; /* Más espacio superior e inferior */
+}
+
+h3{
+    font-weight: 300;
+    padding-right: 61%;
+}
+
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 30px auto 40px auto; /* Añadir margen superior e inferior */
+    overflow-y: auto; /* Para permitir el desplazamiento */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead {
+    background-color: #143795;
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+}
+
+thead th {
+    color: rgb(255, 255, 255);
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #575757;
+}
+
+tbody tr {
+    border-bottom: 1px solid #000000;
+
+}
+
+tbody td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #b9b5b5;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #d9d7df;
+}
+
+
+.Faltante{
+    color: rgb(231, 22, 22);
+    background-color: #ffc6c6;
+    font-weight: bold;
+}
+
+.Correcto{
+    color: rgb(22, 231, 22);
+    background-color: #d7f5d8;
+    font-weight: bold;
+}
+
+.Sobrante{
+    color: rgb(134, 0, 175);
+    background-color: #d5c6ff;
+    font-weight: bold;
+}

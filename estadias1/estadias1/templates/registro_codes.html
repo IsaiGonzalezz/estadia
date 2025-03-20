@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Ingresar Código</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles_codigo.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Ingrese el Código</h2>
+
+<div class="container">
+    <form id="codigoForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="code">Código:</label>
+            <input type="number" id="code" name="code" required>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Enviar Código">
+        </div>
+    </form>
+</div>
+
+{% endblock %}

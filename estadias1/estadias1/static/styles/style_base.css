@@ -1,0 +1,67 @@
+
+header {
+    font-family: Arial, Helvetica, sans-serif;
+    position: fixed;    
+    top: 0;
+    left: 0;
+    width: 20%;
+    background-color: transparent; /* Cambia el color de fondo según tus preferencias */
+    z-index: 100; /* Asegura que el encabezado esté por encima del contenido */
+}
+
+
+
+.menu-hamburguesa {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    width: 100%;
+}
+
+#toggle-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 30px;
+    height: 6px;
+    background-color: #333;
+    margin: 4px 0;
+}
+
+.menu-list {
+    display: none;
+    /* Estilos adicionales para la lista de enlaces */
+}
+
+.menu-list.show-menu {
+    display: block;
+    /* Estilos adicionales para la lista visible */
+}
+
+
+.menu-list {
+    display: none;
+    list-style: none; /* Quita los puntos de la lista */
+    padding: 0; /* Quita el espaciado interno de la lista */
+}
+
+.menu-list li {
+    margin-bottom: 10px; /* Espaciado entre elementos de la lista */
+}
+
+.menu-list a {
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    color: rgb(0, 0, 0); /* Color del texto de los enlaces */
+    font-size: 18px;
+}
+
+/* Estilos para mostrar la lista de enlaces */
+.menu-list.show-menu {
+    display: block;
+}
+
+

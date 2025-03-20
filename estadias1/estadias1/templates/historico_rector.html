@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Consulta Rector</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles_historico_compras.css' %}">
+{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<h1>Consulta Rector</h1>
+
+<script>
+    // Obtener la fecha actual en formato ISO (YYYY-MM-DD)
+    const today = new Date().toISOString().split('T')[0];
+
+    // Asignar la fecha actual como el valor máximo del input de fecha
+    document.getElementById('fecha_inicio').setAttribute('max', today);
+    document.getElementById('fecha_fin').setAttribute('max', today);
+    // Establecer la fecha de hoy en los campos de entrada
+    document.getElementById('fecha_inicio').value = today;
+    document.getElementById('fecha_fin').value = today;
+</script>
+
+<form method="get">
+    <label for="fecha_inicio">Fecha Inicio:</label>
+    <input type="date" id="fecha_inicio" name="fecha_inicio" value="{{ fecha_inicio|date:'Y-m-d' }}">
+    
+    <label for="fecha_fin">Fecha Fin:</label>
+    <input type="date" id="fecha_fin" name="fecha_fin" value="{{ fecha_fin|date:'Y-m-d' }}">
+    
+    <button type="submit">Filtrar</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        // Manejar clic en "Ver detalle"
+        $(document).on('click', '.ver-detalle', function (event) {
+            event.preventDefault();
+            var ventaId = String($(this).data('venta-id')).trim();
+            console.log("Venta ID:", ventaId);
+
+            $.ajax({
+                url: '{% url "detalle_venta" %}',
+                data: {
+                    'venta_id': ventaId
+                },
+                success: function (data) {
+                    $('#detalleContent').html(data);
+                    $('#detalleModal').show();
+                    console.log("Modal abierto con datos:", data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error en la solicitud AJAX:", error);
+                }
+            });
+        });
+
+        // Cerrar el modal
+        $(document).on('click', '.close', function () {
+            $('#detalleModal').hide();
+        });
+
+        // Cerrar el modal si se hace clic fuera de él
+        $(window).on('click', function (event) {
+            if ($(event.target).is('#detalleModal')) {
+                $('#detalleModal').hide();
+            }
+        });
+    });
+</script>
+
+{% load custom_filters %}
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Total Ganancia</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td><strong>Total Ganancias:</strong></td>
+                <td><strong>{{ total_ganancias|currency_format }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div id="detalleModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Detalle de la Venta</h2>
+        <div id="detalleContent">
+            <!-- Aquí se cargarán los detalles de la venta -->
+        </div>
+    </div>
+</div>
+{% endblock %}

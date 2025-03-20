@@ -1,0 +1,449 @@
+body{
+    
+}
+/*estilo del titulo*/
+#title{
+    padding-top: 0%;
+    text-align: center;
+    font-size: x-large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    max-width: 1400px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 1%;
+    padding-bottom: 2%;
+    overflow-y: auto; /* Agrega desplazamiento vertical */
+    max-height: 90vh; /* Limita la altura del contenedor */
+}
+
+/* Estilos para la sección "top" */
+.top {
+    padding: 20px;
+    background-color: #e8e8e8;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+/* Estilos para el formulario */
+#compraForm {
+    display: block;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.form-row {
+    margin-bottom: 3%;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px; /* Añade espacio entre los elementos */
+}
+
+
+#id_id_proveedor {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #d6f1de;
+    color: #333;
+    width: 17.5%; /* Ocupa todo el ancho disponible */
+    font-size: 14px;
+    margin-right: 10px; 
+    margin-left: 5px;
+    margin-bottom: 0%;
+}
+
+/* Estilos para las opciones del select */
+#id_id_proveedor option {
+    font-size: 14px;
+}
+
+#id_id_producto {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 250px; /* Ocupa todo el ancho disponible */
+    font-size: 14px;
+    margin-right: 1px; /* Tamaño de fuente */
+    margin-left: 1px;
+}
+
+/* Estilos para las opciones del select */
+#id_id_producto option {
+    font-size: 14px;
+}
+
+#id_cantidad{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 60%; /* Ocupa todo el ancho disponible */
+    font-size: 14px;
+    margin-right: 1px; /* Tamaño de fuente */
+    margin-left: 5px;
+}
+
+#id_costo{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 50%; /* Ocupa todo el ancho disponible */
+    font-size: 14px;
+    margin-right: 10px; /* Tamaño de fuente */
+    margin-left: 5px;
+}
+
+
+/* Estilos para los campos del formulario */
+#compraForm input[type="text"],
+#compraForm input[type="number"] {
+    padding: 10px;
+    margin-right: 15px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    flex: 1;
+}
+
+/* Estilos para el botón de guardar */
+#btnGuardar {
+    background-color: #ffffff;
+    color: #0048ff;
+    border-color: #007bff;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#btnGuardar:hover{
+    background-color: #006efe;
+    color: #ffffff;
+    border-color: #007bff;
+}
+
+/* Estilos para la sección "bottom" */
+.bottom {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* Estilos para el encabezado de la tabla */
+#resumenTabla th {
+    background-color: #575757;
+    color: #fff;
+}
+
+/* Estilos para la tabla de resumen */
+#resumenTabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1%;
+    margin-bottom: 4%;
+}
+
+/* Estilos para las filas de la tabla */
+#resumenTabla tr {
+    border-bottom: 1px solid #7d7d7d;
+}
+
+/* Estilos para las celdas de la tabla */
+#resumenTabla th,
+#resumenTabla td {
+    padding: 10px;
+    text-align: left;
+    
+}
+
+/* Estilos para el total */
+.total {
+    font-weight: bold;
+    font-size: x-large;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 0%;
+}
+
+.currencyT{
+    margin-left: 15px;
+}
+
+
+/*Estilos para iva*/
+
+.ivaT{
+    margin-top: 10px;
+}
+
+#ivaT, .currencyI{
+    margin-left: 54px;
+}
+
+/*Estilos para subtotal*/
+
+#subtotal, .currencyS{
+    margin-left: 14.5px;
+}
+
+
+
+/* Estilos para el botón de registrar */
+#registrarBtn {
+    margin-top: 20px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+input[type="submit"] {
+    background-color: #0036a9;
+    color: rgb(255, 249, 249);
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 50px;
+    margin-left: 0%;
+}
+
+input[type="submit"]:hover {
+    background-color: #00b734;
+}
+
+#editarCompraBtn {
+    background-color: #e18f00; /* Color de fondo amarillo */
+    margin-left: 10px; /* Espacio a la izquierda para separarlo del otro botón */
+    color: rgb(255, 249, 249);
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 50px;
+    margin-left: 2%;
+}
+
+#editarCompraBtn:hover {
+    background-color: #ff9900; /* Color de fondo más oscuro al pasar el mouse */
+}
+
+#cambiarProveedorBtn{
+    background-color: #ffffff; /* Color de fondo amarillo */
+    margin-left: 10px; /* Espacio a la izquierda para separarlo del otro botón */
+    color: rgb(255, 102, 0);
+    font-weight: bold;
+    border-color: rgb(255, 102, 0);
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 0px;
+    margin-left: 2%;    
+}
+
+#cambiarProveedorBtn:hover{
+    background-color: #ff9900; /* Color de fondo más oscuro al pasar el mouse */
+    color: white;
+}
+
+
+td{
+    font-weight: bold;
+}
+
+label{
+    font-weight: 500;
+}
+
+#lfecha {
+    font-size: 16px; /* Ajusta el tamaño de la fuente del label */
+    color: #333; /* Cambia el color del texto */
+    padding-left: 5%;
+}
+input[type="date"] {
+    width: 200px; /* Ajusta el ancho del input */
+    height: 30px; /* Ajusta la altura del input */
+    border: 1px solid #ccc; /* Añade un borde al input */
+    border-radius: 5px; /* Redondea las esquinas del input */
+    padding: 5px; /* Añade un poco de espacio alrededor del texto en el input */
+
+}
+
+
+.editarBtn {
+    background-color: #0095ff; /* Color de fondo azul */
+    color: white; /* Texto en color blanco */
+    font-weight: bold;
+    border: none; /* Sin bordes */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano al pasar el mouse */
+    font-size: 13px; /* Tamaño de la fuente */
+}
+
+.eliminarBtn {
+    background-color: #ff0019; /* Color de fondo rojo */
+    color: white; /* Texto en color blanco */
+    font-weight: bold;
+    border: none; /* Sin bordes */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano al pasar el mouse */
+    font-size: 13px; /* Tamaño de la fuente */
+}
+
+
+/* Estilo para el botón Aceptar */
+#aceptarEliminar {
+    background-color: rgb(255, 0, 0);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Estilo para el botón Cancelar */
+#cancelarEliminar {
+    background-color: rgb(255, 174, 0);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+#eliminarModal{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+
+/* Estilo para el botón Aceptar Cambiar el Proveedor */
+#aceptarCambiar {
+    background-color: rgb(255, 0, 0);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Estilo para el botón Cancelar */
+#cancelarCambiar {
+    background-color: rgb(255, 174, 0);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Posición del tooltip */
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Parte inferior del tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

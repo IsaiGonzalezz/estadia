@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Registrar Compras</title>{% endblock %}
+
+{% block extra_css %}
+{%load static%}
+<link rel="stylesheet" href="{% static 'styles/styles_compras.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 id="title">Registro de Compras</h2>
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<div class="container">
+    <div class="top">
+        <form id="compraForm" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.id_proveedor.label_tag }} {{ form.id_proveedor }}
+                <input type="hidden" id="hidden_proveedor" name="hidden_proveedor">
+                <label for="fecha" id="lfecha">Fecha de la compra:</label>
+                <input type="date" id="fecha" name="fecha" required>
+                <script>
+                    // Obtener la fecha actual en formato ISO (YYYY-MM-DD)
+                    const today = new Date().toISOString().split('T')[0];
+
+                    // Asignar la fecha actual como el valor máximo del input de fecha
+                    document.getElementById('fecha').setAttribute('max', today);
+                    document.getElementById('fecha').value = today;
+
+                </script>
+                <button id="cambiarProveedorBtn" style="display: none;">Cambiar Proveedor</button>
+            </div>
+    </div>
+    {% load custom_filters %}
+    <div class="bottom">
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.id_producto.label_tag }} {{ form.id_producto }}
+            </div>
+            <div class="form-group">
+                {{ form.cantidad.label_tag }} {{ form.cantidad }}
+            </div>
+            <div class="form-group">
+                {{ form.costo.label_tag }} {{ form.costo }}
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="iva" class="iva" checked>
+                <label for="iva">¿Registrar con IVA?</label>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Añadir Compra" id="btnGuardar">
+            </div>
+        </div>
+        <div class="resumen">
+            <table id="resumenTabla">
+                <tr> 
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                    <th style="text-align: right; width: 3px;"></th>
+                    <th style="text-align: left;">Costo indivudual</th>
+                    <th style="text-align: right; width: 3px;"></th>
+                    <th style="text-align: left;">Total</th>
+                    <th>Acciones</th>
+                </tr>
+
+            </table>
+            <div class="subtotal">
+                Sub-total: <span class="currencyS">$</span><span id="subtotal-compra">0.00</span>
+            </div>
+            <div class="ivaT">
+                IVA: <span class="currencyI">$</span><span id="iva-compra">0.00</span>
+            </div>
+            <div class="total">
+                Total: <span class="currencyT">$</span><span id="total-compra">0.00</span>
+            </div>
+            <input type="submit" value="Registrar compra" id="registrarCompraBtn" style="display: none;">
+            <button id="editarCompraBtn" type="button" style="display: none;">Editar Compra</button>
+            
+        </div>
+        </form>
+
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+            <strong>{{ field|title }}</strong>: {{ errors|striptags }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<div id="eliminarCompra" class="modal">
+    <div class="modal-content">
+        <p id="eliminarModal">¿Seguro que deseas eliminar está fila?</p>
+        <button id="aceptarEliminar" type="button">Aceptar</button>
+        <button id="cancelarEliminar" type="button">Cancelar</button>
+    </div>
+</div>
+
+<div id="cambiarProveedor" class="modal">
+    <div class="modal-content">
+        <p id="eliminarModal">¿Deseas cambiar el proveedor?</p>
+        <button id="aceptarCambiar" type="button">Aceptar</button>
+        <button id="cancelarCambiar" type="button">Cancelar</button>
+    </div>
+</div>
+
+<script src="{% static 'JavaScript/Registro_compra_form.js' %}"></script>
+
+<script>
+    $('#id_id_proveedor').select2({
+            placeholder: "Selecciona un proveedor",
+            allowClear: true
+        });
+    var productos = {};
+</script>
+
+{% for producto in productos %}
+<script>
+    productos["{{ producto.id_producto }}"] = {
+        costo: "{{ producto.costo_compra }}"
+    };
+</script>
+{% endfor %}
+
+<script>
+    $(document).ready(function() {
+        $('#id_id_producto').select2({
+            placeholder: "Selecciona un producto",
+            allowClear: true
+        });
+
+        $('#id_id_producto').on('change', function() {
+            var productoId = $(this).val();
+            if (productoId) {
+                var costo = productos[productoId].costo;
+                $('#id_costo').val(costo);
+            } else {
+                $('#id_costo').val(''); // Limpiar el campo de costo si no hay producto seleccionado
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+</html>

@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Cierre de Caja</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/cierre_caja.css' %}">
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Cierre de Caja</h2>
+<div class="container">
+    <form method="POST" id="cierreForm">
+        {% csrf_token %}
+        <div class="encabezado">
+            <div class="usuario-fecha">
+                {{ form.id_caja.label_tag }} {{ form.id_caja }}
+                {{ form.fecha_fin.label_tag }} {{ form.fecha_fin }}
+            </div>
+        </div>
+        <div class="billetes-monedas">
+            {{ form.billetes_1000.label_tag }} {{ form.billetes_1000 }}
+            {{ form.billetes_500.label_tag }} {{ form.billetes_500 }}
+            {{ form.billetes_200.label_tag }} {{ form.billetes_200 }}
+            {{ form.billetes_100.label_tag }} {{ form.billetes_100 }}
+            {{ form.billetes_50.label_tag }} {{ form.billetes_50 }}
+            {{ form.billetes_20.label_tag }} {{ form.billetes_20 }}
+            {{ form.monedas.label_tag }} {{ form.monedas }}
+        </div>
+        <div class="calculos">
+            <label for="monto_asignado">Monto asignado</label>
+            <input type="text" name="monto_asignado" id="id_monto_asignado" value="" readonly>
+            {{ form.total_venta.label_tag }}
+            <input type="text" name="total_venta" id="id_total_venta" readonly>
+            {{ form.monto_final.label_tag }} <input type="text" name="monto_final" id="id_monto_final" readonly>
+            {{ form.monto_entregado.label_tag }} <input type="text" name="monto_entregado" id="id_monto_entregado" readonly>
+            {{ form.diferencia.label_tag }}  {{ form.diferencia }}
+            <label id="ldiferencia"></label>
+            <script>
+                var cajas = {};
+            </script>
+            {% for caja in cajas %}
+            <script>
+                cajas['{{caja.id_caja}}'] = {
+                    monto_asignado: '{{caja.monto_asignado}}'
+                }
+            </script>
+            {% endfor %}
+            <script>
+                $('#id_id_caja').on('change', function () {
+                    var cajaId = $(this).val();
+                    if (cajaId) {
+                        var monto_asignado = cajas[cajaId].monto_asignado;
+                        $('#id_monto_asignado').val(monto_asignado);
+                    } else {
+                        $('#id_monto_asignado').val('0'); // Limpiar el campo de costo si no hay producto seleccionado
+                    }
+                });
+            </script>
+        </div>
+        <div class="form-bottom">
+            <input type="submit" value="Cerrar caja">
+        </div>
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for field in form %}
+        {% if field.errors %}
+        <strong>{{ field.label|title }}</strong>: {{ field.errors.as_text|striptags }}
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const billetes1000 = document.getElementById('id_billetes_1000');
+            const billetes500 = document.getElementById('id_billetes_500');
+            const billetes200 = document.getElementById('id_billetes_200');
+            const billetes100 = document.getElementById('id_billetes_100');
+            const billetes50 = document.getElementById('id_billetes_50');
+            const billetes20 = document.getElementById('id_billetes_20');
+            const monedas = document.getElementById('id_monedas');
+            const montoEntregado = document.getElementById('id_monto_entregado');
+
+            function actualizarMontoEntregado() {
+                const total =
+                    (parseFloat(billetes1000.value) || 0) * 1000 +
+                    (parseFloat(billetes500.value) || 0) * 500 +
+                    (parseFloat(billetes200.value) || 0) * 200 +
+                    (parseFloat(billetes100.value) || 0) * 100 +
+                    (parseFloat(billetes50.value) || 0) * 50 +
+                    (parseFloat(billetes20.value) || 0) * 20 +
+                    (parseFloat(monedas.value) || 0);
+
+                montoEntregado.value = total.toFixed(2);
+            }
+
+            billetes1000.addEventListener('input', actualizarMontoEntregado);
+            billetes500.addEventListener('input', actualizarMontoEntregado);
+            billetes200.addEventListener('input', actualizarMontoEntregado);
+            billetes100.addEventListener('input', actualizarMontoEntregado);
+            billetes50.addEventListener('input', actualizarMontoEntregado);
+            billetes20.addEventListener('input', actualizarMontoEntregado);
+            monedas.addEventListener('input', actualizarMontoEntregado);
+        });
+    </script>
+
+
+
+</div>
+
+
+
+<script>
+    document.getElementById('id_total_suma')?.style.setProperty('visibility', 'hidden');
+    document.getElementById('id_total_diferencia')?.style.setProperty('visibility', 'hidden');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lista de IDs de campos numéricos
+        var numericFieldIds = [
+            'id_billetes_1000',
+            'id_billetes_500',
+            'id_billetes_200',
+            'id_billetes_100',
+            'id_billetes_50',
+            'id_billetes_20',
+            'id_monedas',
+            'id_monto_final',
+            'id_total_venta',
+            'id_diferencia',
+            'id_monto_entregado',
+            'id_monto_asignado'
+        ];
+
+        // Establece el valor de cada campo numérico a 0
+        numericFieldIds.forEach(function (id) {
+            var field = document.getElementById(id);
+            if (field) {
+                field.value = '0';
+            }
+        });
+
+
+        var monto_final = document.getElementById('id_monto_final');
+        monto_final.setAttribute('readonly', true);
+
+        var diferencia = document.getElementById('id_diferencia');
+        diferencia.setAttribute('readonly', true);
+
+        var entregado = document.getElementById('id_monto_entregado');
+        entregado.setAttribute('readonly', true);
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#id_id_caja').select2({
+            placeholder: "Caja No.",
+            allowClear: true
+        });
+
+        $('#id_id_caja, #id_fecha_fin').change(function () {
+            var cajaId = $('#id_id_caja').val();
+            var fechaFin = $('#id_fecha_fin').val();
+
+            if (cajaId && fechaFin) {
+                $.ajax({
+                    url: '{% url "calculate_total_venta" %}',
+                    data: {
+                        'caja_id': cajaId,
+                        'fecha_fin': fechaFin
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.total_venta !== undefined) {
+                            $('#id_total_venta').val(data.total_venta);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var fechaAsignacionInput = document.getElementById('id_fecha_fin');
+        if (fechaAsignacionInput) {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = ('0' + (now.getMonth() + 1)).slice(-2);
+            var day = ('0' + now.getDate()).slice(-2);
+            var hours = ('0' + now.getHours()).slice(-2);
+            var minutes = ('0' + now.getMinutes()).slice(-2);
+
+            var formattedDateTime = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+            fechaAsignacionInput.value = formattedDateTime;
+        }
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ventas = document.getElementById('id_total_venta');
+        const inicial = document.getElementById('id_monto_asignado');
+        const monto_final = document.getElementById('id_monto_final');
+
+        function actualizarMontoFinal() {
+            const ventasValue = parseFloat(ventas.value) || 0;
+            const inicialValue = parseFloat(inicial.value) || 0;
+            const total = ventasValue + inicialValue;
+
+            monto_final.value = total.toFixed(2);
+        }
+
+        // Verificar los cambios en los valores cada medio segundo
+        setInterval(actualizarMontoFinal, 100);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const monto_entregado = document.getElementById('id_monto_entregado');
+        const monto_final = document.getElementById('id_monto_final');
+        const diferencia = document.getElementById('id_diferencia');
+        const labelDiferencia = document.getElementById('ldiferencia');
+
+        function actualizarDiferencia() {
+            const monto_entregadoValue = parseFloat(monto_entregado.value) || 0;
+            const monto_finalValue = parseFloat(monto_final.value) || 0;
+            const total = monto_entregadoValue - monto_finalValue;
+
+            diferencia.value = total.toFixed(2);
+
+            if (total < 0) {
+                labelDiferencia.textContent = "Faltante";
+                labelDiferencia.style.color =  '#ff1500';
+            } else if (total === 0) {
+                labelDiferencia.textContent = "Correcto";
+                labelDiferencia.style.color = '#36E600';
+            } else {
+                labelDiferencia.textContent = "Sobrante";
+                labelDiferencia.style.color = '#5838AF';
+            }
+        }
+
+        // Verificar los cambios en los valores cada medio segundo
+        setInterval(actualizarDiferencia, 100);
+    });
+</script>
+
+{% endblock %}

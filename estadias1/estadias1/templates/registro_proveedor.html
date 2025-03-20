@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Registro de Proveedor</title>{% endblock %}
+
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles_proveedor.css' %}">
+<!-- -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h1>Registrar Proveedor</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{form.razon_social.label_tag}} {{ form.razon_social }}
+            {{form.direccion.label_tag}} {{ form.direccion }}
+            {{form.ciudad.label_tag}} {{ form.ciudad }}
+            {{form.municipio.label_tag}} {{ form.municipio }}
+            {{form.estado.label_tag}} {{ form.estado }}
+            {{form.cp.label_tag}} {{ form.cp }}
+            {{form.telefono.label_tag}} {{ form.telefono }}
+            {{form.rfc.label_tag}} {{ form.rfc }}
+            <input type="submit" value="Guardar"></input>
+        </form>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+            <strong>{{ field|title }}</strong>: {{ errors|striptags }}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="table-container">
+        <h2>Proveedores existentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Nombre de la empresa</td>
+                    <td>Dirección</td>
+                    <td>Teléfono</td>
+                    <td>RFC</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in proveedores %}
+                <tr>
+                    <td> {{ proveedor.id_proveedor }} </td>
+                    <td> {{ proveedor.razon_social }} </td>
+                    <td> {{ proveedor.direccion }} {{proveedor.ciudad}} {{proveedor.municipio}} {{proveedor.estado}} {{proveedor.cp}} </td>
+                    <td> {{ proveedor.telefono }} </td>
+                    <td> {{ proveedor.rfc }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    {% block title %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'styles/style_base.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static '/favicon.ico' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav class="menu-hamburguesa" id="menu-hamburguesa">
+            <button id="toggle-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="menu-list">
+                {% if request.session.privilegio %}
+                    <li><a href="{% url 'menu_principal' %}">Inicio</a></li>
+                    <li><a href="{% url 'proveedor' %}">Registrar Proveedor</a></li>
+                    <li><a href="{% url 'producto' %}">Registrar Productos</a></li>
+                    <li><a href="{% url 'ventas' %}">Registrar Venta</a></li>
+                    <li><a href="{% url 'compra' %}">Registrar Compra</a></li>
+                    <li><a href="{% url 'cliente' %}">Registrar Cliente</a></li>
+                    <li><a href="{% url 'historicoCompras' %}">Historial de Compras</a></li>
+                    <li><a href="{% url 'historicoVentas' %}">Historial de Ventas</a></li>
+                    <li><a href="{% url 'open_caja' %}">Abrir Caja</a></li>
+                    <li><a href="{% url 'close_caja' %}">Cerrar Caja</a></li>
+                    <li><a href="{% url 'historico_caja' %}">Historial Caja</a></li>
+
+                {% else %}
+                    <li><a href="{% url 'ventas' %}">Registrar Venta</a></li>
+                {% endif %}
+                {% if request.session.usuario_id %}
+                    <!-- Enlace de logout -->
+                    <li><a href="{% url 'logout' %}" style="font-weight: bold; color: rgb(196, 19, 19);">Cerrar Sesión</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <script>
+            const toggleButton = document.getElementById('toggle-menu');
+            const menuList = document.querySelector('.menu-list');
+            const menuHamburguesa = document.getElementById('menu-hamburguesa');
+
+            toggleButton.addEventListener('click', () => {
+                menuList.classList.toggle('show-menu');
+                menuHamburguesa.style.backgroundColor = menuList.classList.contains('show-menu') ? 'white' : 'transparent';
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!menuHamburguesa.contains(event.target) && menuList.classList.contains('show-menu')) {
+                    menuList.classList.remove('show-menu');
+                    menuHamburguesa.style.backgroundColor = 'transparent';
+                }
+            });
+        </script>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <!--   
+    <footer>
+        <p>SOMOS LOBOS - UTSJR 2024</p>
+    </footer>
+    -->
+
+</body>
+
+</html>

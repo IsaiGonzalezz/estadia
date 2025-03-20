@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    {% load static %}
+    <link rel="stylesheet" href="../static/styles/stylesMenu.css">
+    <link rel="icon" type="image/x-icon" href="{% static '/favicon.ico' %}">
+
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'logout' %}" class="logout-link">Cerrar Sesión</a>
+        <h2>Bienvenido</h2>
+        <div class="menu">
+            {% csrf_token %}
+            <a href="{% url 'compra' %}" class="button">
+                <div class="icon"><img src="../static/images/compra_icon.png" alt="Icon"></div>
+                <div class="text">Registrar Compra</div>
+            </a>
+            <a href="{% url 'ventas' %}" class="button">
+                <div class="icon"><img src="../static/images/venta_icon.png" alt="Icon"></div>
+                <div class="text">Registrar Venta</div>
+            </a>
+
+            <a href="{% url 'producto' %}" class="button">
+                <div class="icon"><img src="../static/images/producto_icono.png" alt="Icon"></div>
+                <div class="text">Productos</div>
+            </a>
+            <a href="{% url 'proveedor' %}" class="button">
+                <div class="icon"><img src="../static/images/proveedor_icono.png" alt="Icon"></div>
+                <div class="text">Registrar Proveedor</div>
+            </a>
+            <a href="{% url 'historicoCompras' %}" class="button">
+                <div class="icon"><img src="../static/images/hist_com_icono.png" alt="Icon"></div>
+                <div class="text">Historial Compras</div>
+            </a>
+            <a href="{% url 'historicoVentas' %}" class="button">
+                <div class="icon"><img src="../static/images/hist_ven_icono.png" alt="Icon"></div>
+                <div class="text">Historial Ventas</div>
+            </a>            
+            <a href="{% url 'caja' %}" class="button">
+                <div class="icon"><img src="../static/images/caja_icono.png" alt="Icon"></div>
+                <div class="text">Caja</div>
+            </a>
+            <a href="{% url 'historico_caja' %}" class="button">
+                <div class="icon"><img src="../static/images/historial_caja_icono.png" alt="Icon"></div>
+                <div class="text">Historial Cajas</div>
+            </a>
+            <a href="{% url 'ganancias' %}" class="button">
+                <div class="icon"><img src="../static/images/moni.png" alt="Icon"></div>
+                <div class="text">Historial Ganancias</div>
+            </a>
+            <a href="{% url 'codes' %}" class="button">
+                <div class="icon"><img src="../static/images/codigo_icono.png" alt="Icon"></div>
+                <div class="text">Registro Codigos</div>
+            </a>
+            <a href="{% url 'rector' %}" class="button">
+                <div class="icon"><img src="../static/images/ganancias_icono.png" alt="Icon"></div>
+                <div class="text">RECTOR</div>
+            </a>
+            <a href="{% url 'usuario' %}" class="button">
+                <div class="icon"><img src="../static/images/JEMINWEY.png" alt="Icon"></div>
+                <div class="text">Registro de Usuario</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

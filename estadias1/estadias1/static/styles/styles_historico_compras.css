@@ -1,0 +1,177 @@
+.ver-detalle{
+    background-color: #626ab0; /* Color de fondo amarillo */
+    color: rgb(255, 249, 249);
+    font-weight: bold;
+    padding: 3px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+#fecha_inicio{
+    margin-right:2%;
+    
+}
+
+label{
+    margin-left: 5%;
+}
+
+#filtrar{
+    margin-left: 3%;
+    background-color: #005ba6;
+    color: rgb(255, 249, 249);
+    font-weight: bold;
+    border: none;
+    padding: 1%;    
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+#proveedor{
+    width: 15%;
+    
+}
+
+
+form{
+    text-align: center;
+    padding-top: 0%;
+}
+
+body{
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fbfaf6;
+}
+
+h1 {
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 40px 0 20px 0; /* Más espacio superior e inferior */
+}
+
+h3{
+    font-weight: 300;
+    padding-right: 61%;
+}
+
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 30px auto 40px auto; /* Añadir margen superior e inferior */
+    overflow-y: auto; /* Para permitir el desplazamiento */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead {
+    background-color: #143795;
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+}
+
+thead th {
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #575757;
+}
+
+tbody tr {
+    border-bottom: 1px solid #000000;
+
+}
+
+tbody td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #b9b5b5;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #d9d7df;
+}
+
+.total-row {
+    text-align: center;
+    align-content: center;
+    font-weight: bold;
+    background-color: #f4f4f4;
+}
+
+.total-row td {
+    padding: 12px;
+    text-align: right;
+}
+
+.total-row td:last-child {
+    text-align: center;
+}
+
+#subtotalHead{
+    text-align: right;
+}
+
+#ttal{
+    color: #fff;
+    background-color: rgb(25, 163, 78);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Modal container */
+/* Modal container */
+.modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed; /* Mantener el modal en una posición fija */
+    z-index: 1000; /* Asegurarse de que el modal esté sobre otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Habilitar scroll si el contenido es mayor que la pantalla */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    margin: auto; /* Centrar horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ancho del modal */
+    max-width: 600px; /* Máximo ancho del modal */
+    position: relative; /* Necesario para posicionar el botón de cerrar */
+    top: 50%; /* Posicionarlo al centro verticalmente */
+    transform: translateY(-50%); /* Ajustar para centrar verticalmente */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

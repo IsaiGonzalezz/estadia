@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Registro de Caja</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/CAJAS.css' %}">
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+{% endblock %} 
+
+{% block content %}
+
+
+<h2>Registro de Caja</h2>
+
+<div class="container"> 
+    <form method="POST">
+        {% csrf_token %}
+        <div class="encabezado">
+            <div class="usuario-fecha">
+                <div>
+                    <label for="id_id_usuario">Usuario:</label>
+                    {{ form.usuario_id }}
+                </div>
+                <div>
+                    <label for="id_fecha_asignacion">Fecha de Asignación:</label>
+                    {{ form.fecha_asignacion }}
+                </div>
+            </div>
+        </div>
+
+        <div class="billetes-monedas">
+            <div>
+                <label for="id_mil">Billetes 1000:</label>
+                {{ form.billetes_1000 }}
+            </div>
+            <div>
+                <label for="id_quinientos">Billetes 500:</label>
+                {{ form.billetes_500 }}
+            </div>
+            <div>
+                <label for="id_doscientos">Billetes 200:</label>
+                {{ form.billetes_200 }}
+            </div>
+            <div>
+                <label for="id_cien">Billetes 100:</label>
+                {{ form.billetes_100 }}
+            </div>
+            <div>
+                <label for="id_cincuenta">Billetes 50:</label>
+                {{ form.billetes_50 }}
+            </div>
+            <div>
+                <label for="id_veinte">Billetes 20:</label>
+                {{ form.billetes_20 }}
+            </div>
+            <div>
+                <label for="id_monedas">Monedas:</label>
+                {{ form.monedas }}
+            </div>
+        </div>
+
+        <div class="form-bottom">
+            <input type="submit" value="Registrar Caja">
+        </div>
+    </form>
+    
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for field in form %}
+            {% if field.errors %}
+                <strong>{{ field.label|title }}</strong>: {{ field.errors.as_text|striptags }}
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lista de IDs de campos numéricos
+        var numericFieldIds = [
+            'id_billetes_1000',
+            'id_billetes_500',
+            'id_billetes_200',
+            'id_billetes_100',
+            'id_billetes_50',
+            'id_billetes_20',
+            'id_monedas'
+        ];
+        
+        // Establece el valor de cada campo numérico a 0
+        numericFieldIds.forEach(function(id) {
+            var field = document.getElementById(id);
+            if (field) {
+                field.value = '0';
+            }
+        });
+        
+        // Oculta el campo monto_asignado
+        var montoAsignadoField = document.getElementById('id_monto_asignado');
+        if (montoAsignadoField) {
+            montoAsignadoField.style.visibility = "hidden";
+            montoAsignadoField.parentElement.style.display = "none";
+        }
+
+        $(document).ready(function () {
+            $('#id_usuario_id').select2({
+                placeholder: "Selecciona un usuario",
+                allowClear: true
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtén el campo por su ID
+        var fechaAsignacionInput = document.getElementById('id_fecha_asignacion');
+        
+        // Si el campo existe en la página
+        if (fechaAsignacionInput) {
+            // Obtiene la fecha y hora actual
+            var now = new Date();
+
+            // Ajusta el formato de la fecha y hora a 'YYYY-MM-DDTHH:MM'
+            var year = now.getFullYear();
+            var month = ('0' + (now.getMonth() + 1)).slice(-2);
+            var day = ('0' + now.getDate()).slice(-2);
+            var hours = ('0' + now.getHours()).slice(-2);
+            var minutes = ('0' + now.getMinutes()).slice(-2);
+
+            // Formato para el input de tipo 'datetime-local'
+            var formattedDateTime = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+
+            // Asigna el valor al campo
+            fechaAsignacionInput.value = formattedDateTime;
+        }
+    });
+</script>
+
+{% endblock %}

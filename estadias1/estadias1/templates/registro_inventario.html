@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}<title>Registro de Producto </title>{% endblock %}
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+{% endblock %}
+{% block content %}
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<script src="{% static 'JavaScript/editarProducto.js' %}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<div class="form-container" id="form-container">
+    <h1>Registro de Producto</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="producto_id" id="producto_id">
+        <input type="submit" value="Registrar" id="submitButton">
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('#id_id_categoria').select2({
+                placeholder: "Selecciona una categoria",
+                allowClear: true
+            });
+            $('#selectBuscar').select2({
+                placeholder: "Busque un producto",
+                allowClear: true
+            });
+        });
+    </script>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for field, errors in form.errors.items %}
+        <strong>{{ field|title }}</strong>: {{ errors|striptags }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <a href="{% url 'altaCategoria' %}" class="value">Añadir Categoría</a>
+
+</div>
+<div class="table-container">
+    <h1>Productos Existentes</h1>
+    <form method="GET" action="{% url 'producto' %}" id="buscarProducto">
+        <select name="q" id="selectBuscar">
+            <option value="">Seleccione un producto</option>
+            {% for producto in productos %}
+            <option value="{{ producto.id_producto }}"
+                {% if query == producto.id_producto|stringformat:"s" %}selected{% endif %}>{{ producto.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit" id="btnBuscarProducto">Buscar</button>
+    </form>
+    {% load custom_filters %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Stock</th>
+                <th>Stock minimo</th>
+                <th>Categoría</th>
+                <th>Precio de Venta</th>
+                <th>Precio de Compra</th>
+                <th>Utilidad</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos_filtrados %}
+            <tr
+            class="{% if producto.stock > producto.punto_reorden %}high-stock{% elif producto.stock == producto.punto_reorden %}medium-stock{% else %}low-stock{% endif %} {% if producto.estado == 0 %} inactive {% endif %}">
+                <td> {{producto.id_producto}} </td>
+                <td> {{producto.nombre}} </td>
+                <td class=" {% if producto.stock > producto.punto_reorden %} stockAlto-color {% elif producto.stock == producto.punto_reorden %} stockMedio-color {% else %} stockBajo-color {% endif %} "> {{producto.stock}} </td>
+                <td> {{producto.punto_reorden}} </td>
+                <td> {{producto.id_categoria.descripcion}} </td>
+                <td>{{producto.costo_venta|currency_format }} </td>
+                <td>{{producto.costo_compra|currency_format }} </td>
+                <td>{{producto.porcentaje_utilidad}}% </td>
+                <td
+                class=" {% if producto.estado == True %}activo {% elif producto.estado == False %}inactivo {% endif %} " style="font-weight: bold;">
+                    {% if producto.estado %}
+                        Activo
+                    {% else %}
+                        Inactivo
+                    {% endif %}
+                </td>
+                <td>
+                    <button type="button" id="editarBtn"
+                        onclick="editarProducto('{{ producto.id_producto }}', '{{ producto.nombre }}', '{{ producto.id_categoria.descripcion }}', '{{ producto.stock }}', '{{ producto.costo_venta }}', '{{ producto.costo_compra }}', '{{ producto.porcentaje_utilidad }}', '{{ producto.punto_reorden }}', '{{ producto.estado }}')">Editar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="eliminarProducto" class="modal">
+    <div class="modal-content">
+        <p id="eliminarModal">¿Seguro que deseas eliminar está fila?</p>
+        <button id="aceptarEliminar" type="button">Aceptar</button>
+        <button id="cancelarEliminar" type="button">Cancelar</button>
+    </div>
+</div>
+<!-- -->
+
+
+{% endblock %}

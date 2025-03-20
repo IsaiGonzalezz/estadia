@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Registro de Caja</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/stylesMenu.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Registro de Caja</h1>
+    <div class="menu">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'open_caja' %}" class="button">
+                <div class="icon"><img src="../static/images/abrir_caja.png" alt="Icon"></div>
+                <div class="text">Abrir Caja</div>
+            </a>
+            <a href="{% url 'close_caja' %}" class="button_close">
+                <div class="icon"><img src="../static/images/cerrar_caja.png" alt="Icon"></div>
+                <div class="text">Cerrar Caja</div>
+            </a>
+        </form>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+            <strong>{{ field|title }}</strong>: {{ errors|striptags }}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

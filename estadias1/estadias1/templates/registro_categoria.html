@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Detalles de Categoría</title>{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <h1>Detalles de Categoría</h1>
+
+    <div style="display: none;">
+        <label for="id_categoria">ID Categoria:</label><br>
+        <input type="number" id="id" name="id" readonly><br>
+    </div>
+
+    <label for="descripcion">Añade el Nombre o Descripción:</label><br>
+    <input type="text" id="descripcion" name="descripcion" required><br>
+
+    <a href="{% url 'producto' %}" class="value">Regresar</a>
+
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

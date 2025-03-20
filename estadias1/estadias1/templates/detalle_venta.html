@@ -1,0 +1,25 @@
+{% load custom_filters %}
+<table>
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Costo Individual</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detalle in detalles_venta %}
+        <tr>
+            <td>{{ detalle.1 }}</td>
+            <td>{{ detalle.2 }}</td>
+            <td style="text-align: right;">{{ detalle.6|currency_format }}</td>
+            <td style="text-align: right;">{{ detalle.4|currency_format }}</td>
+        </tr>
+        {% endfor %}
+        <tr id="ttal">
+            <td colspan="3" style="text-align: right;">Total</td>
+            <td style="text-align: right;">{{total|currency_format}}</td>
+        </tr>
+    </tbody>
+</table>
